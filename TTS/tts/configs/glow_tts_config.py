@@ -173,10 +173,7 @@ class GlowTTSConfig(BaseTTSConfig):
     # testing
     test_sentences: List[str] = field(
         default_factory=lambda: [
-            "It took me quite a long time to develop a voice, and now that I have it I'm not going to be silent.",
-            "Be a voice, not an echo.",
-            "I'm sorry Dave. I'm afraid I can't do that.",
-            "This cake is great. It's so delicious and moist.",
-            "Prior to November 22, 1963.",
+            "Yesu Giduc cuotv seix nyei jauv-louc se hnangv naaiv.",
+            "Yosepv yiem hnyouv hnangv naaiv nor hnamv.",
         ]
     )
