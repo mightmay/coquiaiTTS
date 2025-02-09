@@ -63,7 +63,6 @@ class GlowTTS(BaseTTS):
         tokenizer: "TTSTokenizer" = None,
         speaker_manager: SpeakerManager = None,
     ):
-
         super().__init__(config, ap, tokenizer, speaker_manager)
 
         # pass all config fields to `self`
@@ -124,7 +123,7 @@ class GlowTTS(BaseTTS):
             )
             if self.speaker_manager is not None:
                 assert (
-                    config.d_vector_dim == self.speaker_manager.d_vector_dim
+                    config.d_vector_dim == self.speaker_manager.embedding_dim
                 ), " [!] d-vector dimension mismatch b/w config and speaker manager."
         # init speaker embedding layer
         if config.use_speaker_embedding and not config.use_d_vector_file:
@@ -514,7 +513,7 @@ class GlowTTS(BaseTTS):
             y = y[:, :, :y_max_length]
             if attn is not None:
                 attn = attn[:, :, :, :y_max_length]
-        y_lengths = (y_lengths // self.num_squeeze) * self.num_squeeze
+        y_lengths = torch.div(y_lengths, self.num_squeeze, rounding_mode="floor") * self.num_squeeze
         return y, y_lengths, y_max_length, attn
 
     def store_inverse(self):

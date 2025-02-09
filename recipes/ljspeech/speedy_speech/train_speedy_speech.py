@@ -11,7 +11,7 @@ from TTS.utils.audio import AudioProcessor
 
 output_path = os.path.dirname(os.path.abspath(__file__))
 dataset_config = BaseDatasetConfig(
-    name="ljspeech", meta_file_train="metadata.csv", path=os.path.join(output_path, "../LJSpeech-1.1/")
+    formatter="ljspeech", meta_file_train="metadata.csv", path=os.path.join(output_path, "../LJSpeech-1.1/")
 )
 
 audio_config = BaseAudioConfig(
@@ -46,7 +46,6 @@ config = SpeedySpeechConfig(
     print_step=50,
     print_eval=False,
     mixed_precision=False,
-    sort_by_audio_len=True,
     max_seq_len=500000,
     output_path=output_path,
     datasets=[dataset_config],
@@ -67,7 +66,12 @@ tokenizer, config = TTSTokenizer.init_from_config(config)
 # You can define your custom sample loader returning the list of samples.
 # Or define your custom formatter and pass it to the `load_tts_samples`.
 # Check `TTS.tts.datasets.load_tts_samples` for more details.
-train_samples, eval_samples = load_tts_samples(dataset_config, eval_split=True)
+train_samples, eval_samples = load_tts_samples(
+    dataset_config,
+    eval_split=True,
+    eval_split_max_size=config.eval_split_max_size,
+    eval_split_size=config.eval_split_size,
+)
 
 # init model
 model = ForwardTTS(config, ap, tokenizer)

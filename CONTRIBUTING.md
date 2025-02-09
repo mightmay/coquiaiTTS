@@ -26,7 +26,8 @@ If you like to contribute code, squash a bug but if you don't know where to star
     We list all the target improvements for the next version. You can pick one of them and start contributing.
 
 - Also feel free to suggest new features, ideas and models. We're always open for new things.
-#####Call for sharing language models
+
+## Call for sharing language models
 If possible, please consider sharing your pre-trained models in any language (if the licences allow for you to do so). We will include them in our model catalogue for public use and give the proper attribution, whether it be your name, company, website or any other source specified.
 
 This model can be shared in two ways:
@@ -35,7 +36,8 @@ This model can be shared in two ways:
 
 Models are served under `.models.json` file and any model is available under TTS CLI or Server end points.
 
-Either way you choose, please make sure you send the models [here](https://github.com/coqui-ai/TTS/issues/380). 
+Either way you choose, please make sure you send the models [here](https://github.com/coqui-ai/TTS/discussions/930).
+
 ## Sending a ✨**PR**✨
 
 If you have a new feature, a model to implement, or a bug to squash, go ahead and send a ✨**PR**✨.
@@ -46,7 +48,7 @@ The following steps are tested on an Ubuntu system.
 
 1. Fork 🐸TTS[https://github.com/coqui-ai/TTS] by clicking the fork button at the top right corner of the project page.
 
-2. Clone 🐸TTS and add the main repo as a new remote named ```upsteam```.
+2. Clone 🐸TTS and add the main repo as a new remote named ```upstream```.
 
     ```bash
     $ git clone git@github.com:<your Github name>/TTS.git
@@ -125,6 +127,32 @@ The following steps are tested on an Ubuntu system.
     We might ask you for certain changes that would appear in the ✨**PR**✨'s page under 🐸TTS[https://github.com/coqui-ai/TTS/pulls].
 
 14. Once things look perfect, We merge it to the ```dev``` branch and make it ready for the next version.
+
+## Development in Docker container
+
+If you prefer working within a Docker container as your development environment, you can do the following:
+
+1. Fork 🐸TTS[https://github.com/coqui-ai/TTS] by clicking the fork button at the top right corner of the project page.
+
+2. Clone 🐸TTS and add the main repo as a new remote named ```upsteam```.
+
+    ```bash
+    $ git clone git@github.com:<your Github name>/TTS.git
+    $ cd TTS
+    $ git remote add upstream https://github.com/coqui-ai/TTS.git
+    ```
+
+3. Build the Docker Image as your development environment (it installs all of the dependencies for you):
+
+    ```
+    docker build --tag=tts-dev:latest -f .\dockerfiles\Dockerfile.dev .
+    ```
+
+4. Run the container with GPU support:
+
+    ```
+    docker run -it --gpus all tts-dev:latest /bin/bash
+    ```
 
 Feel free to ping us at any step you need help using our communication channels.
 

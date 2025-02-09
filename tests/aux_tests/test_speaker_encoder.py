@@ -3,9 +3,9 @@ import unittest
 import torch as T
 
 from tests import get_tests_input_path
-from TTS.speaker_encoder.losses import AngleProtoLoss, GE2ELoss, SoftmaxAngleProtoLoss
-from TTS.speaker_encoder.models.lstm import LSTMSpeakerEncoder
-from TTS.speaker_encoder.models.resnet import ResNetSpeakerEncoder
+from TTS.encoder.losses import AngleProtoLoss, GE2ELoss, SoftmaxAngleProtoLoss
+from TTS.encoder.models.lstm import LSTMSpeakerEncoder
+from TTS.encoder.models.resnet import ResNetSpeakerEncoder
 
 file_path = get_tests_input_path()
 
@@ -129,7 +129,6 @@ class AngleProtoLossTests(unittest.TestCase):
 class SoftmaxAngleProtoLossTests(unittest.TestCase):
     # pylint: disable=R0201
     def test_in_out(self):
-
         embedding_dim = 64
         num_speakers = 5
         batch_size = 4

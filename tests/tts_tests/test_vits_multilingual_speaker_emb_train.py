@@ -1,4 +1,5 @@
 import glob
+import json
 import os
 import shutil
 
@@ -13,7 +14,7 @@ output_path = os.path.join(get_tests_output_path(), "train_outputs")
 
 
 dataset_config_en = BaseDatasetConfig(
-    name="ljspeech",
+    formatter="ljspeech",
     meta_file_train="metadata.csv",
     meta_file_val="metadata.csv",
     path="tests/data/ljspeech",
@@ -21,7 +22,7 @@ dataset_config_en = BaseDatasetConfig(
 )
 
 dataset_config_pt = BaseDatasetConfig(
-    name="ljspeech",
+    formatter="ljspeech",
     meta_file_train="metadata.csv",
     meta_file_val="metadata.csv",
     path="tests/data/ljspeech",
@@ -92,6 +93,14 @@ languae_id = "en"
 continue_speakers_path = os.path.join(continue_path, "speakers.json")
 continue_languages_path = os.path.join(continue_path, "language_ids.json")
 
+# Check integrity of the config
+with open(continue_config_path, "r", encoding="utf-8") as f:
+    config_loaded = json.load(f)
+assert config_loaded["characters"] is not None
+assert config_loaded["output_path"] in continue_path
+assert config_loaded["test_delay_epochs"] == 0
+
+# Load the model and run inference
 inference_command = f"CUDA_VISIBLE_DEVICES='{get_device_id()}' tts --text 'This is an example.' --speaker_idx {speaker_id} --speakers_file_path {continue_speakers_path} --language_ids_file_path {continue_languages_path} --language_idx {languae_id} --config_path {continue_config_path} --model_path {continue_restore_path} --out_path {out_wav_path}"
 run_cli(inference_command)
 

@@ -6,7 +6,7 @@ import numpy as np
 import torch
 from torch.utils.data import DataLoader
 
-from tests import get_tests_output_path
+from tests import get_tests_data_path, get_tests_output_path
 from TTS.tts.configs.shared_configs import BaseDatasetConfig, BaseTTSConfig
 from TTS.tts.datasets import TTSDataset, load_tts_samples
 from TTS.tts.utils.text.tokenizer import TTSTokenizer
@@ -20,11 +20,11 @@ os.makedirs(OUTPATH, exist_ok=True)
 # create a dummy config for testing data loaders.
 c = BaseTTSConfig(text_cleaner="english_cleaners", num_loader_workers=0, batch_size=2, use_noise_augment=False)
 c.r = 5
-c.data_path = "tests/data/ljspeech/"
+c.data_path = os.path.join(get_tests_data_path(), "ljspeech/")
 ok_ljspeech = os.path.exists(c.data_path)
 
 dataset_config = BaseDatasetConfig(
-    name="ljspeech_test",  # ljspeech_test to multi-speaker
+    formatter="ljspeech_test",  # ljspeech_test to multi-speaker
     meta_file_train="metadata.csv",
     meta_file_val=None,
     path=c.data_path,
@@ -45,7 +45,6 @@ class TestTTSDataset(unittest.TestCase):
         self.ap = AudioProcessor(**c.audio)
 
     def _create_dataloader(self, batch_size, r, bgs, start_by_longest=False):
-
         # load dataset
         meta_data_train, meta_data_eval = load_tts_samples(dataset_config, eval_split=True, eval_split_size=0.2)
         items = meta_data_train + meta_data_eval
